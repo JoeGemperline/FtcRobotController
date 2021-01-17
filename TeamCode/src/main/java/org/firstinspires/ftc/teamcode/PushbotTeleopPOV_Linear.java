@@ -96,15 +96,15 @@ public class PushbotTeleopPOV_Linear extends LinearOpMode {
             if (strife < 0)
             {
                 leftfront = drive + turn + strife;
-                rightfront = drive - turn + strife;
+                rightfront = drive - turn - strife;
                 leftback = drive + turn - strife;
-                rightback = drive - turn - strife;
+                rightback = drive - turn + strife;
             }
             else
             {
-                leftfront = drive + turn - strife;
+                leftfront = drive + turn + strife;
                 rightfront = drive - turn - strife;
-                leftback = drive + turn + strife;
+                leftback = drive + turn - strife;
                 rightback = drive - turn + strife;
             }
 
