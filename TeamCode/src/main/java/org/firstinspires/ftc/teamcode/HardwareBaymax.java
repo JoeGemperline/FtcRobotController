@@ -37,6 +37,13 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 /**
  * This is NOT an opmode.
  *
+ * To connect to hub via wifi first select gub from computers wifi settings and open a terminal and run
+ * adb connect 192.168.43.1:5555
+ *
+ * to view hub info on web browser connect via wifi and past following address into browser
+ *
+ * http://192.168.43.1:8080
+ *
  * This class can be used to define all the specific hardware for a single robot.
  * In this case that robot is a Pushbot.
  * See PushbotTeleopTank_Iterative and others classes starting with "Pushbot" for usage examples.
@@ -53,11 +60,11 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 public class HardwareBaymax
 {
     /* Public OpMode members. */
-    public DcMotor  leftfrontDrive   = null;
+//    public DcMotor  leftfrontDrive   = null;
     public DcMotor  rightfrontDrive  = null;
     public DcMotor  leftbackDrive   = null;
     public DcMotor  rightbackDrive  = null;
-    public DcMotor  leftArm     = null;
+    public DcMotor  shootmotor     = null;
     public Servo    leftClaw    = null;
     public Servo    rightClaw   = null;
 
@@ -80,30 +87,31 @@ public class HardwareBaymax
         hwMap = ahwMap;
 
         // Define and Initialize Motors
-        leftfrontDrive  = hwMap.get(DcMotor.class, "leftfront");
+//        leftfrontDrive  = hwMap.get(DcMotor.class, "leftfront");
         rightfrontDrive = hwMap.get(DcMotor.class, "rightfront");
         leftbackDrive  = hwMap.get(DcMotor.class, "leftback");
         rightbackDrive = hwMap.get(DcMotor.class, "rightback");
-//        leftArm    = hwMap.get(DcMotor.class, "left_arm");
-        leftfrontDrive.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
+        shootmotor    = hwMap.get(DcMotor.class, "shooter");
+//        leftfrontDrive.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
         rightfrontDrive.setDirection(DcMotor.Direction.REVERSE);// Set to FORWARD if using AndyMark motors
         leftbackDrive.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
         rightbackDrive.setDirection(DcMotor.Direction.REVERSE);// Set to FORWARD if using AndyMark motors
+        shootmotor.setDirection(DcMotor.Direction.REVERSE);// Set to FORWARD if using AndyMark motors
 
         // Set all motors to zero power
-        leftfrontDrive.setPower(0);
+//        leftfrontDrive.setPower(0);
         rightfrontDrive.setPower(0);
         leftbackDrive.setPower(0);
         rightbackDrive.setPower(0);
-//        leftArm.setPower(0);
+        shootmotor.setPower(0);
 
         // Set all motors to run without encoders.
         // May want to use RUN_USING_ENCODERS if encoders are installed.
-        leftfrontDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+//        leftfrontDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rightfrontDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         leftbackDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rightbackDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-//        leftArm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        shootmotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         // Define and initialize ALL installed servos.
 //        leftClaw  = hwMap.get(Servo.class, "left_hand");

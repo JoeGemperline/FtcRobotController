@@ -63,13 +63,13 @@ public class PushbotTeleopPOV_Linear extends LinearOpMode {
 
     @Override
     public void runOpMode() {
-        double leftfront;
+//        double leftfront;
         double rightfront;
         double leftback;
         double rightback;
         double drive;
         double turn;
-        double max;
+        double shoot;
         double strife;
         /* Initialize the hardware variables.
          * The init() method of the hardware class does all the work here
@@ -92,17 +92,18 @@ public class PushbotTeleopPOV_Linear extends LinearOpMode {
             drive = gamepad1.left_stick_y;
             turn  =  -gamepad1.right_stick_x;
             strife  =  gamepad1.left_stick_x;
+            shoot=gamepad1.left_trigger;
             // Combine drive and turn for blended motion.
             if (strife < 0)
             {
-                leftfront = drive + turn + strife;
+//                leftfront = drive + turn + strife;
                 rightfront = drive - turn - strife;
                 leftback = drive + turn - strife;
                 rightback = drive - turn + strife;
             }
             else
             {
-                leftfront = drive + turn + strife;
+//                leftfront = drive + turn + strife;
                 rightfront = drive - turn - strife;
                 leftback = drive + turn - strife;
                 rightback = drive - turn + strife;
@@ -110,10 +111,11 @@ public class PushbotTeleopPOV_Linear extends LinearOpMode {
 
 
             // Output the safe vales to the motor drives.
-            robot.leftfrontDrive.setPower(leftfront*0.5);
+//            robot.leftfrontDrive.setPower(leftfront*0.5);
             robot.rightfrontDrive.setPower(rightfront*0.5);
             robot.leftbackDrive.setPower(leftback*0.5);
             robot.rightbackDrive.setPower(rightback*0.5);
+            robot.shootmotor.setPower(shoot*1);
 
             // Use gamepad left & right Bumpers to open and close the claw
 //            if (gamepad1.right_bumper)
@@ -136,7 +138,7 @@ public class PushbotTeleopPOV_Linear extends LinearOpMode {
 
             // Send telemetry message to signify robot running;
 //            telemetry.addData("claw",  "Offset = %.2f", clawOffset);
-            telemetry.addData("left",  "%.2f", leftfront);
+//            telemetry.addData("left",  "%.2f", leftfront);
             telemetry.addData("right", "%.2f", rightfront);
             telemetry.update();
 
