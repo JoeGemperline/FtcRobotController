@@ -52,7 +52,9 @@ import org.firstinspires.ftc.teamcode.HardwareBaymax;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
+
 @TeleOp(name="Pushbot: Teleop POV20210108", group="Pushbot")
+
 //@Disabled
 public class PushbotTeleopPOV_Linear extends LinearOpMode {
 
@@ -63,14 +65,18 @@ public class PushbotTeleopPOV_Linear extends LinearOpMode {
 
     @Override
     public void runOpMode() {
+
 //        double leftfront;
+
         double rightfront;
         double leftback;
         double rightback;
         double drive;
         double turn;
+
         double shoot;
         double strife;
+
         /* Initialize the hardware variables.
          * The init() method of the hardware class does all the work here
          */
@@ -87,10 +93,11 @@ public class PushbotTeleopPOV_Linear extends LinearOpMode {
         while (opModeIsActive()) {
 
             // Run wheels in POV mode (note: The joystick goes negative when pushed forwards, so negate it)
-            // In this mode the Left stick moves the robot fwd and back, the Right stick turns left and right.
+            // In this mode the Left stick moves the robot fwd and back, the Right stick turns leftfront and rightfront.
             // This way it's also easy to just drive straight, or just turn.
             drive = gamepad1.left_stick_y;
             turn  =  -gamepad1.right_stick_x;
+
             strife  =  gamepad1.left_stick_x;
             shoot=gamepad1.left_trigger;
             // Combine drive and turn for blended motion.
@@ -100,6 +107,7 @@ public class PushbotTeleopPOV_Linear extends LinearOpMode {
                 rightfront = drive - turn - strife;
                 leftback = drive + turn - strife;
                 rightback = drive - turn + strife;
+
             }
             else
             {
@@ -110,14 +118,28 @@ public class PushbotTeleopPOV_Linear extends LinearOpMode {
             }
 
 
+
+            // Normalize the values so neither exceed +/- 1.0
+//            max = Math.max(Math.abs(leftfront), Math.abs(rightfront));
+//            if (max > 1.0)
+//            {
+//                leftfront /= max;
+//                rightfront /= max;
+//                leftback /= max;
+//                rightback /= max;
+//            }
+
             // Output the safe vales to the motor drives.
+
 //            robot.leftfrontDrive.setPower(leftfront*0.5);
             robot.rightfrontDrive.setPower(rightfront*0.5);
             robot.leftbackDrive.setPower(leftback*0.5);
             robot.rightbackDrive.setPower(rightback*0.5);
             robot.shootmotor.setPower(shoot*1);
 
-            // Use gamepad left & right Bumpers to open and close the claw
+
+
+            // Use gamepad leftfront & rightfront Bumpers to open and close the claw
 //            if (gamepad1.right_bumper)
 //                clawOffset += CLAW_SPEED;
 //            else if (gamepad1.left_bumper)
@@ -138,8 +160,10 @@ public class PushbotTeleopPOV_Linear extends LinearOpMode {
 
             // Send telemetry message to signify robot running;
 //            telemetry.addData("claw",  "Offset = %.2f", clawOffset);
+
 //            telemetry.addData("left",  "%.2f", leftfront);
             telemetry.addData("right", "%.2f", rightfront);
+
             telemetry.update();
 
             // Pace this loop so jaw action is reasonable speed.
