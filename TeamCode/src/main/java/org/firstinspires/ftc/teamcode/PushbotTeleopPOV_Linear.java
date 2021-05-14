@@ -52,7 +52,9 @@ import org.firstinspires.ftc.teamcode.HardwareBaymax;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@TeleOp(name="Coach 20210108", group="Pushbot")
+
+@TeleOp(name="Pushbot: Teleop POV20210108", group="Pushbot")
+
 //@Disabled
 public class PushbotTeleopPOV_Linear extends LinearOpMode {
 
@@ -63,14 +65,17 @@ public class PushbotTeleopPOV_Linear extends LinearOpMode {
 
     @Override
     public void runOpMode() {
-        double leftfront;
+
+//        double leftfront;
+
         double rightfront;
         double leftback;
         double rightback;
         double drive;
         double turn;
+
+        double shoot;
         double strife;
-        double max;
 
         /* Initialize the hardware variables.
          * The init() method of the hardware class does all the work here
@@ -92,38 +97,26 @@ public class PushbotTeleopPOV_Linear extends LinearOpMode {
             // This way it's also easy to just drive straight, or just turn.
             drive = gamepad1.left_stick_y;
             turn  =  -gamepad1.right_stick_x;
-            strife = gamepad1.left_stick_x;
 
+            strife  =  gamepad1.left_stick_x;
+            shoot=gamepad1.left_trigger;
             // Combine drive and turn for blended motion.
-//            if (strife == 0)
-//            {
-//                leftfront = drive + turn;
-//                rightfront = drive - turn;
-//                leftback = drive + turn;
-//                rightback = drive - turn;
-//            }
-//
-            if (strife >=0)
+            if (strife < 0)
             {
-                leftfront = drive + strife+turn;
-                rightfront = drive-strife-turn;
-                leftback = drive-strife+turn;
-                rightback = drive + strife-turn;
-            }
-            else if (strife <= 0)
-            {
-                leftfront = drive + strife+turn;
-                rightfront = drive-strife-turn;
-                leftback = drive-strife+turn;
-                rightback = drive+strife-turn;
+//                leftfront = drive + turn + strife;
+                rightfront = drive - turn - strife;
+                leftback = drive + turn - strife;
+                rightback = drive - turn + strife;
+
             }
             else
             {
-                leftfront = 0;
-                rightfront = 0;
-                leftback = 0;
-                rightback = 0;
+//                leftfront = drive + turn + strife;
+                rightfront = drive - turn - strife;
+                leftback = drive + turn - strife;
+                rightback = drive - turn + strife;
             }
+
 
 
             // Normalize the values so neither exceed +/- 1.0
@@ -137,10 +130,13 @@ public class PushbotTeleopPOV_Linear extends LinearOpMode {
 //            }
 
             // Output the safe vales to the motor drives.
-            robot.leftfrontDrive.setPower(leftfront*0.5);
+
+//            robot.leftfrontDrive.setPower(leftfront*0.5);
             robot.rightfrontDrive.setPower(rightfront*0.5);
             robot.leftbackDrive.setPower(leftback*0.5);
             robot.rightbackDrive.setPower(rightback*0.5);
+            robot.shootmotor.setPower(shoot*1);
+
 
 
             // Use gamepad leftfront & rightfront Bumpers to open and close the claw
@@ -164,12 +160,10 @@ public class PushbotTeleopPOV_Linear extends LinearOpMode {
 
             // Send telemetry message to signify robot running;
 //            telemetry.addData("claw",  "Offset = %.2f", clawOffset);
-            telemetry.addData("leftfront",  "%.2f", leftfront);
-            telemetry.addData("rightfront", "%.2f", rightfront);
 
-            telemetry.addData("leftback",  "%.2f", leftback);
-            telemetry.addData("rightback", "%.2f", rightback);
-            telemetry.addData(  "strife", "%.2f", strife);
+//            telemetry.addData("left",  "%.2f", leftfront);
+            telemetry.addData("right", "%.2f", rightfront);
+
             telemetry.update();
 
             // Pace this loop so jaw action is reasonable speed.
